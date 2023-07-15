@@ -4,6 +4,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * @author Priya Patel
+ * This class is for better response to client
+ */
 @Getter
 @Setter
 @NoArgsConstructor

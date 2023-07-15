@@ -12,30 +12,25 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- * @author Priya Patel;
- * This class is entity class for User resource
+ * @author Priya Patel
+ * This class is a entity class for Category Resource
  */
 @Entity
-@Table(name = "users")
+@Table(name = "categories")
 @Getter
 @Setter
 @NoArgsConstructor
-public class User 
+public class Category 
 {
 	@Id
+	@Column(name = "category_id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "user_id")
-	private int userId;
+	private int categoryId;
 	
-	@Column(name = "name")
-	private String name;
+	@Column(name = "category_title")
+	private String categoryTitle;
 	
-	@Column(name = "email")
-	private String email;
-	
-	@Column(name = "password")
-	private String password;
-	
-	@Column(name = "about")
-	private String about;
+	@Column(name = "category_description")
+	private String categoryDescription;
+
 }
