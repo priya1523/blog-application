@@ -13,6 +13,11 @@ import com.feuji.blog.entity.User;
 public interface UserRepository extends JpaRepository<User, Integer>
 {
 
+	/**
+	 * This method is check the email is already present or not
+	 * @param email
+	 * @return boolean
+	 */
 	boolean existsByEmail(String email);
 
 }
