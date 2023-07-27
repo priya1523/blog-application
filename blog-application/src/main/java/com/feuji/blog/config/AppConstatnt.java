@@ -22,5 +22,25 @@ public class AppConstatnt
 	 */	
 	public static final String SORT_ORDER="asc";
 	
+	/**
+	 * This ia a constant for jwt token validity
+	 */
+	public static final int JWT_TOKEN_VALIDITY=5*60*60;
+	
+	/**
+	 * This is a secret key for blog application
+	 */
+	public static final String SECRET="jwttokenkeyforblogapplication";
+	
+	/**
+	 * This is for user role id
+	 */
+	public static final int USER_ROLE_ID=501;
+	
+	/**
+	 * This is for the admin role id
+	 */
+	public static final int ADMIN_ROLE_ID=502;
+
 
 }

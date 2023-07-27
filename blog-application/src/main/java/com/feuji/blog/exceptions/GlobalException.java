@@ -1,5 +1,6 @@
 package com.feuji.blog.exceptions;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -67,6 +68,19 @@ public class GlobalException
 	}
 	
 	/**
+	 * This method handle the IOException globally
+	 * @param IOException
+	 * @return ResponseEntity<ApiResponse>
+	 */
+	@ExceptionHandler(IOException.class)
+	public ResponseEntity<ApiResponse> ioExcetion(IOException ioException)
+	{
+		String message=ioException.getMessage();
+		ApiResponse apiResponse=new ApiResponse(message,false);
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(apiResponse);
+	}
+	
+	/**
 	 * This method is for handle the parent exception globally
 	 * @param Exception
 	 * @return ResponseEntity<ApiResponse>
@@ -78,5 +92,18 @@ public class GlobalException
 		ApiResponse apiResponse=new ApiResponse(message,false);
 		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(apiResponse);
 	}	
+	
+	/**
+	 * This method is for handle the InvalidTokenException globally
+	 * @param invalidToken
+	 * @return
+	 */
+	@ExceptionHandler(InvalidTokenException.class)
+	public ResponseEntity<ApiResponse> invalidTokenException(InvalidTokenException invalidToken)
+	{
+		String message=invalidToken.getMessage();
+		ApiResponse apiResponse=new ApiResponse(message,false);
+		return ResponseEntity.status(invalidToken.getErrorCode()).body(apiResponse);
+	}
 	 
 }

@@ -79,4 +79,5 @@ public interface PostService
 	 * @throws Exception 
 	 */
 	List<PostDto> searchByTitle(String postTitle) throws Exception;
+
 }

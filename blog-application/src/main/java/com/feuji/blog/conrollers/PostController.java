@@ -1,12 +1,18 @@
 package com.feuji.blog.conrollers;
 
+import java.io.InputStream;
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StreamUtils;
+
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,11 +22,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.feuji.blog.config.AppConstatnt;
 import com.feuji.blog.payloads.ApiResponse;
 import com.feuji.blog.payloads.PageResponse;
 import com.feuji.blog.payloads.PostDto;
+import com.feuji.blog.services.FileService;
 import com.feuji.blog.services.PostService;
 
 /**
@@ -33,6 +41,12 @@ public class PostController
 {
 	@Autowired
 	private PostService postService;
+	
+	@Autowired
+	private FileService fileService;
+	
+	@Value("${project.image}")
+	private String imagePath;
 	
 	/**
 	 * This method is an api call for the create new post, accept the POST http request
@@ -145,13 +159,54 @@ public class PostController
 		ApiResponse apiResponse=new ApiResponse("Post deleted successfully !",true);
 		return new ResponseEntity<ApiResponse>(apiResponse,HttpStatus.OK);
 	}
-	
+  
+	/**
+	 * This method is an api call for the search the post besed on the postTitle, accept the GET http request
+	 * @param postTitle
+	 * @return ResponseEntity<List<PostDto>>
+	 * @throws Exception
+	 */
 	@GetMapping("/posts/search")
 	public ResponseEntity<List<PostDto>> searchByPostTitle(@RequestParam(value = "postTitle") String postTitle) throws Exception
 	{
 		List<PostDto> postDtos=this.postService.searchByTitle(postTitle);
 		return new ResponseEntity<List<PostDto>>(postDtos,HttpStatus.OK);
 	}
+	
+	/**
+	 * This method is an api call for upload the image for the post, accept the POST http request
+	 * @param postId
+	 * @param MultipartFile image
+	 * @return ResponseEntity<PostDto>
+	 * @throws Exception
+	 */
+	@PostMapping("/posts/image/upload/{postId}")
+	public ResponseEntity<PostDto> uploadPostImage(
+			@PathVariable("postId") int postId,
+			@RequestParam(value = "image") MultipartFile image
+			) throws Exception
+	{
+		PostDto postDto=this.postService.getPost(postId);
+		String imageName=this.fileService.uploadImage(this.imagePath, image);
+		postDto.setImageName(imageName);
+		postDto=this.postService.updtaePost(postDto, postId);
+		return new ResponseEntity<PostDto>(postDto,HttpStatus.OK);
+	}
 				
-
+	/**
+	 * This method is an api call for the get image for post by imageName, accept the GET http request
+	 * @param String imageName
+	 * @param HttpServletResponse httpServletResponse
+	 * @throws Exception
+	 */
+	@GetMapping(value = "/posts/image/{imageName}",produces = MediaType.IMAGE_JPEG_VALUE)
+	public void getPostImage(
+			@PathVariable(value = "imageName") String imageName,
+			HttpServletResponse httpServletResponse
+			) throws Exception
+	{
+		InputStream inputStream=this.fileService.getImage(this.imagePath, imageName);
+		httpServletResponse.setContentType(MediaType.IMAGE_JPEG_VALUE);
+		StreamUtils.copy(inputStream, httpServletResponse.getOutputStream());
+	}
 }

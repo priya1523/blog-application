@@ -1,6 +1,7 @@
 package com.feuji.blog.payloads;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
@@ -35,5 +36,7 @@ public class PostDto
 	private CategoryDto category;
 	
 	private UserDto user;
+  
+	private List<CommentDto> comments;
 
 }
