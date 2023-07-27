@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StreamUtils;
+
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -158,7 +159,7 @@ public class PostController
 		ApiResponse apiResponse=new ApiResponse("Post deleted successfully !",true);
 		return new ResponseEntity<ApiResponse>(apiResponse,HttpStatus.OK);
 	}
-	
+  
 	/**
 	 * This method is an api call for the search the post besed on the postTitle, accept the GET http request
 	 * @param postTitle

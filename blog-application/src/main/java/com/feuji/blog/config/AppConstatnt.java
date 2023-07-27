@@ -41,6 +41,6 @@ public class AppConstatnt
 	 * This is for the admin role id
 	 */
 	public static final int ADMIN_ROLE_ID=502;
-	
+
 
 }
