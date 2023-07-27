@@ -41,6 +41,14 @@ public class AppConstatnt
 	 * This is for the admin role id
 	 */
 	public static final int ADMIN_ROLE_ID=502;
+	
+	public static final String[] PUBLIC_URLS= {
+		                                          "/api/auth/**",
+		                                          "/v2/api-docs",
+		                                          "/swagger-resources/**",
+		                                          "/swagger-ui/**",
+		                                          "/webjars"
+	                                          };
 
 
 }

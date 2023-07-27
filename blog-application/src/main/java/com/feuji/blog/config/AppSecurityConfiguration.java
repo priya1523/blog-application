@@ -12,6 +12,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import com.feuji.blog.security.CustomeUserDetailsService;
 import com.feuji.blog.security.JwtAuthenticationEntryPoint;
@@ -24,6 +25,7 @@ import com.feuji.blog.security.JwtAuthenticationFilter;
 @SuppressWarnings("deprecation")
 @Configuration
 @EnableWebSecurity
+@EnableWebMvc
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class AppSecurityConfiguration extends WebSecurityConfigurerAdapter
 {
@@ -42,7 +44,7 @@ public class AppSecurityConfiguration extends WebSecurityConfigurerAdapter
 		http.csrf()
 			.disable()
 			.authorizeHttpRequests()
-			.antMatchers("/api/auth/**").permitAll()
+			.antMatchers(AppConstatnt.PUBLIC_URLS).permitAll()
 			.anyRequest()
 			.authenticated()
 			.and()

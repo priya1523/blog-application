@@ -37,8 +37,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException 
 	{
+		String url=request.getRequestURI();
 		
-		if (!(request.getRequestURI().equals("/api/auth/login")) && !(request.getRequestURI().equals("/api/auth/register")))
+		if (!(url.equals("/api/auth/login")) 
+				&& !(url.equals("/api/auth/register")) 
+				&& !(url.equals("/v2/api-docs"))
+				&& !(url.equals("/webjars"))
+				&& !(url.contains("swagger-resources"))
+				&& !(url.contains("swagger-ui")))
 		{
 			String requestToken=request.getHeader("Authorization");
 			String username=null;
